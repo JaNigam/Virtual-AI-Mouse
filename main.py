@@ -59,8 +59,7 @@ while True:
                 
                 #for index finger tip the id is 8
                 if land_mark_id == 8:
-                    ipos_x = pos_x
-                    ipos_y = pos_y
+                    ipos_x, ipos_y = int(land_mark.x * img_w), int(land_mark.y * img_h)
                     cv.circle(img, (ipos_x, ipos_y), 20, (0, 255, 0), cv.FILLED)
                     x = np.interp(ipos_x, (100, res_x-100) ,(0, screenWidth))
                     y = np.interp(ipos_y, (100, res_y-100) ,(0, screenHeight))
@@ -72,8 +71,7 @@ while True:
                 
                 #if middle finger tip appears close to index finger
                 if land_mark_id == 12:
-                    mpos_x = pos_x
-                    mpos_y = pos_y
+                    mpos_x, mpos_y = int(land_mark.x * img_w), int(land_mark.y * img_h)
                     cv.circle(img, (mpos_x, mpos_y), 20, (0, 255, 0), cv.FILLED)
                     length = math.hypot(ipos_x - mpos_x, ipos_y - mpos_y)
                     if length<=25:
