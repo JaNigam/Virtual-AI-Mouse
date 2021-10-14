@@ -70,7 +70,7 @@ while True:
             plocX, plocY = clocX, clocY
              
             #if middle finger tip appears close to index finger
-            mpos_x, mpos_y = int(keypoints[4]['X'] * img_w), int(keypoints[4]['Y'] * img_h)
+            mpos_x, mpos_y = int(keypoints[12]['X'] * img_w), int(keypoints[12]['Y'] * img_h)
             cv.circle(img, (mpos_x, mpos_y), 20, (0, 255, 0), cv.FILLED)
             length = math.hypot(ipos_x - mpos_x, ipos_y - mpos_y)
             if length<=25:
