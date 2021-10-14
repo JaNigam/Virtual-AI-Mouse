@@ -46,36 +46,35 @@ while True:
     
     if result.multi_hand_landmarks:
         for hand in result.multi_hand_landmarks:
-            for land_mark_id, land_mark in enumerate(hand.landmark):
+            keypoints = []
+            for land_mark in hand.landmark:
                 # print(land_mark_id, land_mark)
-                
                 #converting the x y position of points/landmarks to pixel format
                 img_h, img_w, img_c = img.shape
-                pos_x, pos_y = int(land_mark.x * img_w), int(land_mark.y * img_h)
                 
                 #mouse working area
                 cv.rectangle(img, (100, 100), (res_x - 100, res_y-100),
                 (255, 0, 255), 2)
                 
-                #for index finger tip the id is 8
-                if land_mark_id == 8:
-                    ipos_x, ipos_y = int(land_mark.x * img_w), int(land_mark.y * img_h)
-                    cv.circle(img, (ipos_x, ipos_y), 20, (0, 255, 0), cv.FILLED)
-                    x = np.interp(ipos_x, (100, res_x-100) ,(0, screenWidth))
-                    y = np.interp(ipos_y, (100, res_y-100) ,(0, screenHeight))
-                    clocX = plocX + (x - plocX)/5
-                    clocY = plocY + (y - plocY)/5
-                    if clocX>0 and clocY>0:
-                        pag.moveTo(screenWidth-clocX, clocY)
-                    plocX, plocY = clocX, clocY
-                
-                #if middle finger tip appears close to index finger
-                if land_mark_id == 12:
-                    mpos_x, mpos_y = int(land_mark.x * img_w), int(land_mark.y * img_h)
-                    cv.circle(img, (mpos_x, mpos_y), 20, (0, 255, 0), cv.FILLED)
-                    length = math.hypot(ipos_x - mpos_x, ipos_y - mpos_y)
-                    if length<=25:
-                        pag.click()
+                keypoints.append({'X': land_mark.x, 'Y': land_mark.y})
+
+            #for index finger tip the id is 8
+            ipos_x, ipos_y = int(keypoints[8]['X'] * img_w), int(keypoints[8]['Y'] * img_h)
+            cv.circle(img, (ipos_x, ipos_y), 20, (0, 255, 0), cv.FILLED)
+            x = np.interp(ipos_x, (100, res_x-100) ,(0, screenWidth))
+            y = np.interp(ipos_y, (100, res_y-100) ,(0, screenHeight))
+            clocX = plocX + (x - plocX)/5
+            clocY = plocY + (y - plocY)/5
+            if clocX>0 and clocY>0:
+                pag.moveTo(screenWidth-clocX, clocY)
+            plocX, plocY = clocX, clocY
+             
+            #if middle finger tip appears close to index finger
+            mpos_x, mpos_y = int(keypoints[4]['X'] * img_w), int(keypoints[4]['Y'] * img_h)
+            cv.circle(img, (mpos_x, mpos_y), 20, (0, 255, 0), cv.FILLED)
+            length = math.hypot(ipos_x - mpos_x, ipos_y - mpos_y)
+            if length<=25:
+                pag.click()
 
             #mpDraw.draw_landmarks(img, hand, mpHands.HAND_CONNECTIONS)
     """
