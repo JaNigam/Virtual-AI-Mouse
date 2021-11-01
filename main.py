@@ -86,6 +86,6 @@ while True:
     #showing fps in the window
     cv.putText(img, str(int(fps)), (10,70), cv.FONT_HERSHEY_COMPLEX, 2, (255, 0, 0), 2)
     """
-    cv.imshow('video', img)
+    cv.imshow('video', cv.flip(img, 1))
     if cv.waitKey(1) & 0xFF == ord('q'):
         break
