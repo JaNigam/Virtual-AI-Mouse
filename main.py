@@ -10,7 +10,7 @@ mpHands = mp.solutions.hands
 mpDraw = mp.solutions.drawing_utils
 #initializes a mediapipe hand object
 #by default number of hands detected = 2 we can change it to one if needed
-hands = mpHands.Hands(max_num_hands = 1)
+hands = mpHands.Hands(max_num_hands = 1, min_detection_confidence = .65)
 
 """
 #for checking the fps
@@ -39,7 +39,7 @@ cap.set(4, res_y)
 while True:
     success, img = cap.read()
     
-    # hands object uses only RGB image hence we need to convert the BGR(by default in openCV) image to RGB
+    # hands object uses only RGB image we need to convert the BGR(by default in openCV) image to RGB
     imgRGB = cv.cvtColor(img, cv.COLOR_BGR2RGB)
     result = hands.process(imgRGB)
     #print(result.multi_hand_landmarks)
